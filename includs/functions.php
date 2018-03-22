@@ -31,7 +31,7 @@ function getGdImage($path){
         break;
    }
     
-    return $img;
+    return [$img, $info[0], $info[1], $info[2]];
     
 }
 
@@ -69,7 +69,19 @@ function uploadFile($tmpName, $path, $dstName = false) {
     return FALSE;
 }
 function uploadFiles($files, $path){
+    $uploaded = [];
     for ($i = 0; $i < count($files['tmp_name']); $i++) {
-        uploadFile($files['tmp_name'][$i], $path);
+        $uploade[] = uploadFile($files['tmp_name'][$i], $path);
     }
+    return $uploade;
 }
+
+ function createThumbnails($files){
+        
+        for ($i = 0; $i < count($files); $i++) {
+        $gdImg = getGdImage($files[$i]);
+        $dstH = intval(calcDimension($gdImg[1], $gdImg[2], THUMB_WIDTH));
+        $name = pathinfo($files[$i])['filename'] . '_' . THUMB_WIDTH . 'x' . $dstH;
+        createResample($gdImg[0], $gdImg[1], $gdImg[2], THUMB_WIDTH, $dstH, IMAGETYPE_JPEG, PATH_THUMBNAILS, $name);
+    }
+    }

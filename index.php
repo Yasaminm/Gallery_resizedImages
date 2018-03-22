@@ -4,7 +4,10 @@ require_once './includs/functions.php';
 
 
 if (isset($_FILES['uplImgs'])) {
-    uploadFiles($_FILES['uplImgs'], PATH_ORIGINALS);
+    
+    $uploadedFiles = uploadFiles($_FILES['uplImgs'], PATH_ORIGINALS);
+    createThumbnails($uploadedFiles);
+    
 }
 ?>
 
@@ -35,6 +38,9 @@ if (isset($_FILES['uplImgs'])) {
 
             </form>
         </div>
+<?php 
+print_r($uploadedFiles);
 
+?>
     </body>
 </html>
