@@ -1,12 +1,10 @@
 <?php
 require_once './config.php';
-require_once './includes/functions.php';
+require_once './includs/functions.php';
+
 
 if (isset($_FILES['uplImgs'])) {
-    for ($i = 0; $i < count($_FILES['uplImgs']['tmp_name']); $i++) {
-        $tmpName = $_FILES['uplImgs']['tmp_name'][$i];
-        uploadFile($tmpName, PATH_ORIGINALS);
-    }
+    uploadFiles($_FILES['uplImgs'], PATH_ORIGINALS);
 }
 ?>
 

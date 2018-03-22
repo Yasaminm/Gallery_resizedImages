@@ -68,3 +68,8 @@ function uploadFile($tmpName, $path, $dstName = false) {
     }
     return FALSE;
 }
+function uploadFiles($files, $path){
+    for ($i = 0; $i < count($files['tmp_name']); $i++) {
+        uploadFile($files['tmp_name'][$i], $path);
+    }
+}
