@@ -51,3 +51,20 @@ if($filetype === 2){
 }
 return $dstPath;
 }
+
+function getImageFileType($path) {
+    $types = ['', 'gif', 'jpeg', 'png'];
+    $type = getimagesize($path)[2];
+    if ($type > 0 && $type < 4) {
+        return $types[$type];
+    }
+    return false;
+}
+
+function uploadFile($tmpName, $path, $dstName = false) {
+    $n = ($dstName) ? $dstName : getRandName() . '.' . getImageFileType($tmpName);
+    if (move_uploaded_file($tmpName, $path . $n)) {
+        return $path . $n;
+    }
+    return FALSE;
+}
