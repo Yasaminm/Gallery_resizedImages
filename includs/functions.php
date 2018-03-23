@@ -35,17 +35,17 @@ function getGdImage($path){
     
 }
 
-function createResample($srcImg, $srcW, $srcH, $dstW, $dstH, $filetype, $path, $filename){
+function createResample($srcImg, $srcW, $srcH, $dstW, $dstH, $filetype, $path, $filename, $compression=DEFAULT_COMPRESSION_LEVEL){
 $dstPath = false;
 $dstImg = imagecreatetruecolor($dstW, $dstH);
 imagecopyresampled($dstImg, $srcImg, 0, 0, 0, 0, $dstW, $dstH, $srcW, $srcH);
 
 if($filetype === 2){
     $dstPath = $path. $filename. '.jpeg';
-    imagejpeg($dstImg, $dstPath);
+    imagejpeg($dstImg, $dstPath, $compression);
 }elseif ($filetype === 3){
     $dstPath = $path. $filename. '.png';
-    imagepng($dstImg, $dstPath);
+    imagepng($dstImg, $dstPath, $compression);
 }else{
     return false;
 }
@@ -80,12 +80,15 @@ function uploadFiles($files, $path){
         
         for ($i = 0; $i < count($files); $i++) {
         $gdImg = getGdImage($files[$i]);
-        $dstH = intval(calcDimension($gdImg[1], $gdImg[2], THUMB_WIDTH));
         
+        //THUMBNAILS
+        $dstH = intval(calcDimension($gdImg[1], $gdImg[2], THUMB_WIDTH));
         foreach($retina as $value){
         $name = pathinfo($files[$i])['filename'] . '_' . THUMB_WIDTH . 'x' . $dstH. '@' .$value. 'x';
-        createResample($gdImg[0], $gdImg[1], $gdImg[2], THUMB_WIDTH*$value, $dstH*$value, IMAGETYPE_JPEG, PATH_THUMBNAILS, $name);
+        createResample($gdImg[0], $gdImg[1], $gdImg[2], THUMB_WIDTH*$value, $dstH*$value, IMAGETYPE_JPEG, PATH_THUMBNAILS, $name,60);
         }
+        
+        //FULLSIZE
         $dstH = intval(calcDimension($gdImg[1], $gdImg[2], FULLSIZE_WIDTH));
         foreach($retina as $value){
         $name = pathinfo($files[$i])['filename'] . '_' . FULLSIZE_WIDTH . 'x' . $dstH. '@' .$value. 'x';
