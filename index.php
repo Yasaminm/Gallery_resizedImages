@@ -6,7 +6,7 @@ require_once './includs/functions.php';
 if (isset($_FILES['uplImgs'])) {
     
     $uploadedFiles = uploadFiles($_FILES['uplImgs'], PATH_ORIGINALS);
-    createThumbnails($uploadedFiles);
+    createThumbnails($uploadedFiles, [1, 2]);
     
 }
 ?>

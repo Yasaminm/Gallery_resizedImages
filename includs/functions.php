@@ -76,12 +76,21 @@ function uploadFiles($files, $path){
     return $uploade;
 }
 
- function createThumbnails($files){
+ function createThumbnails($files, $retina = [1]){
         
         for ($i = 0; $i < count($files); $i++) {
         $gdImg = getGdImage($files[$i]);
         $dstH = intval(calcDimension($gdImg[1], $gdImg[2], THUMB_WIDTH));
-        $name = pathinfo($files[$i])['filename'] . '_' . THUMB_WIDTH . 'x' . $dstH;
-        createResample($gdImg[0], $gdImg[1], $gdImg[2], THUMB_WIDTH, $dstH, IMAGETYPE_JPEG, PATH_THUMBNAILS, $name);
-    }
+        
+        foreach($retina as $value){
+        $name = pathinfo($files[$i])['filename'] . '_' . THUMB_WIDTH . 'x' . $dstH. '@' .$value. 'x';
+        createResample($gdImg[0], $gdImg[1], $gdImg[2], THUMB_WIDTH*$value, $dstH*$value, IMAGETYPE_JPEG, PATH_THUMBNAILS, $name);
+        }
+        $dstH = intval(calcDimension($gdImg[1], $gdImg[2], FULLSIZE_WIDTH));
+        foreach($retina as $value){
+        $name = pathinfo($files[$i])['filename'] . '_' . FULLSIZE_WIDTH . 'x' . $dstH. '@' .$value. 'x';
+        createResample($gdImg[0], $gdImg[1], $gdImg[2], FULLSIZE_WIDTH *$value, $dstH*$value, IMAGETYPE_JPEG, PATH_THUMBNAILS, $name);
+        }
+        
+        }
     }
