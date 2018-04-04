@@ -71,9 +71,9 @@ function uploadFile($tmpName, $path, $dstName = false) {
 function uploadFiles($files, $path){
     $uploaded = [];
     for ($i = 0; $i < count($files['tmp_name']); $i++) {
-        $uploade[] = uploadFile($files['tmp_name'][$i], $path);
+        $uploaded[] = uploadFile($files['tmp_name'][$i], $path);
     }
-    return $uploade;
+    return $uploaded;
 }
 
  function createThumbnails($files, $retina = [1]){
